@@ -8,14 +8,17 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.basic.model.Emp;
+import com.example.basic.model.json;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -80,5 +83,23 @@ public class RequestController {
     @GetMapping("/req/data")
     public Map<String, String> getData(@RequestParam Map<String, String> map) {
         return map;
+    }
+
+    @CrossOrigin
+    @GetMapping("/req/get")
+    public Map<String, String> get(@RequestParam Map<String, String> map) {
+        return map;
+    }
+
+    @CrossOrigin
+    @PostMapping("/req/post")
+    public Map<String, String> post(@RequestParam Map<String, String> map) {
+        return map;
+    }
+
+    @CrossOrigin
+    @PostMapping("/req/json")
+    public json json(@RequestBody json J) {
+        return J;
     }
 }
