@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.basic.dao.DemoDao;
 import com.example.basic.mapper.DemoMapper;
 import com.example.basic.mapper.EmpMapper;
+import com.example.basic.model.Hospital;
 import com.example.basic.model.TableExam1;
 import com.example.basic.model.major;
+import com.example.basic.repository.HospitalRepository;
 import com.example.basic.repository.TableExam1Repository;
 import com.example.basic.repository.majorRepository;
 
@@ -26,7 +28,13 @@ public class DBController {
     @Autowired DemoDao demoDao;
     @Autowired TableExam1Repository tableExam1Repository;
 
-    @Autowired majorRepository mr;
+    @Autowired HospitalRepository hr;
+    @GetMapping("hospital/list")
+    public List<Hospital> hoslist(){
+        return hr.findAll();
+    }
+
+    @Autowired majorRepository mr; 
     @GetMapping("major/add")
     public major majoradd(@ModelAttribute major major){
         major.setEbtbDate(new Date());
