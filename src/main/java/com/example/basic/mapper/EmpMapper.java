@@ -8,6 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface EmpMapper {
-public List<Map<String, Object>> select();
+public List<Map<String, Object>> select(String ename);
 }
 
