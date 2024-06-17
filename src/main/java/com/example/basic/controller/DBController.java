@@ -14,21 +14,37 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.basic.dao.DemoDao;
+import com.example.basic.entity.Player;
+import com.example.basic.entity.Team;
 import com.example.basic.mapper.DemoMapper;
 import com.example.basic.mapper.EmpMapper;
 import com.example.basic.model.Hospital;
 import com.example.basic.model.TableExam1;
 import com.example.basic.model.major;
 import com.example.basic.repository.HospitalRepository;
+import com.example.basic.repository.PlayerRepository;
 import com.example.basic.repository.TableExam1Repository;
+import com.example.basic.repository.TeamRepository;
 import com.example.basic.repository.majorRepository;
 
 @RestController
 public class DBController {
     @Autowired DemoDao demoDao;
     @Autowired TableExam1Repository tableExam1Repository;
-
     @Autowired HospitalRepository hr;
+    @Autowired TeamRepository tr;
+    @Autowired PlayerRepository pr;
+
+    @GetMapping("/team")
+    public List<Team> team() {
+        return tr.findAll();
+    }
+
+    @GetMapping("/player")
+    public List<Player> player() {
+        return pr.findAll();
+    }
+    
     @GetMapping("hospital/list")
     public List<Hospital> hoslist(){
         return hr.findAll();
