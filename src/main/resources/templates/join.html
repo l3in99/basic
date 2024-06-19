@@ -1,0 +1,19 @@
+<form action="/join" method="post">
+    ID : <input type="text" name="userId"><br>
+    PW : <input type="password" name="userPw"><br>
+    <input type="submit" value="회원가입">
+</form>
+
+<script>
+    const submit = document.querySelector("[type=submit]");
+    const userId = document.querySelector("[name=userId]");
+    submit.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = userId.value;
+        const regex1 = /[a-z]{4,}/;
+        const con1 = regex1.test(id);
+        const regex2 = /g[^가-힣]+/;
+        const con2 = regex2.test(id);
+        alert(con1 + " " + con2);
+    });
+</script>

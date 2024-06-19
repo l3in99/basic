@@ -12,10 +12,6 @@ import com.example.basic.repository.BoardRepository;
 import com.example.basic.repository.UserRepository;
 
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.RequestBody;
-
-
-
 
 @Controller
 public class SessionController {
@@ -35,7 +31,19 @@ public class SessionController {
         return "redirect:/main";
     }
     
+    @GetMapping("/join")
+    public String join() {
+        return "join";
+    }
     
+    @PostMapping("/join")
+    public String joinPost(BoardModel boardModel) {
+        Board board = new Board();
+        board.setTitle(boardModel.getTitle());
+        br.save(board);
+        return "redirect:/main";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login";
