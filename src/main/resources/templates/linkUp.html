@@ -1,0 +1,6 @@
+<style>
+    .active {pointer-events: none; color: gray;}
+</style>
+<th:block th:each="p : ${#numbers.sequence(startPage, endPage)}">
+    <a th:href="@{|/linkUp?page=${p}|}" th:text="${p}" th:class="${page == p} ? 'active' : ''"></a>
+</th:block>

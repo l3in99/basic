@@ -13,6 +13,6 @@ public class Hospital {
     String name;
     Integer medical;
     Integer room;
-    String ted;
+    String tel;
     String address;
 }

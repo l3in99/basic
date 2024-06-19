@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.basic.model.Hospital;
 import com.example.basic.repository.HospitalRepository;
@@ -16,14 +17,8 @@ import com.example.basic.repository.HospitalRepository;
 @Controller
 public class ThymeleafController {
 
-    @Autowired
-    HospitalRepository hr;
-
     @GetMapping("/welcome")
     public String welcome(Model model) {
-        List<Hospital> elist = hr.findAll();
-        model.addAttribute("elist", elist);
-
         List<String> list = new ArrayList<>();
         list.add("A");
         list.add("B");
@@ -39,7 +34,7 @@ public class ThymeleafController {
 
     }
 
-    @GetMapping("user")
+    @GetMapping("/user")
     public String user(Model model) {
         Map<String, Object> user = null;
         user = new HashMap<>();
@@ -50,7 +45,7 @@ public class ThymeleafController {
         return "user";
     }
 
-    @GetMapping("userList")
+    @GetMapping("/userList")
     public String userList(Model model) {
         List<Map<String, Object>> userList = new ArrayList<>();
         Map<String, Object> user = null;
@@ -71,5 +66,52 @@ public class ThymeleafController {
         userList.add(user);
         model.addAttribute("userList", userList);
         return "userList";
+    }
+
+    @Autowired
+    HospitalRepository hr;
+
+    @GetMapping("/hospital")
+    public String hospital(Model model) {
+        List<Hospital> elist = hr.findAll();
+        model.addAttribute("elist", elist);
+        return "hospital";
+    }
+
+    @GetMapping("mode")
+    public String mode(
+            Model model, @RequestParam Map<String, Object> map) {
+        model.addAttribute("now", map.get("now") == null ? "am" : map.get("now"));
+        model.addAttribute("name", map.get("name"));
+        model.addAttribute("auth", map.get("auth"));
+        model.addAttribute("category", map.get("category"));
+        return "mode";
+    }
+
+    @GetMapping("pagination")
+    public String pagination(
+            Model model, @RequestParam(defaultValue = "1") int page) {
+        int startPage = (page - 1) / 10 * 10 + 1;
+        int endPage = startPage + 9;
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("page", page);
+        return "pagination";
+    }
+
+    @GetMapping("linkUp")
+    public String linkUp(
+            Model model, @RequestParam(defaultValue = "1") int page) {
+        int startPage = (page - 1) / 10 * 10 + 1;
+        int endPage = startPage + 9;
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("page", page);
+        return "linkUp";
+    }
+
+    @GetMapping("insert1")
+    public String insert1() {
+        return "insert1";
     }
 }
