@@ -1,9 +1,7 @@
 package com.example.basic.controller;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -48,18 +46,6 @@ public class RequestController {
         String sql = "select * from emp" + " where ename like concat('%', '" + ename + "', '%')" + " limit " + pageNum
                 + " , 5";
         return jt.queryForList(sql);
-    }
-
-    @GetMapping("req/param2")
-    public String param2(@RequestParam Map<String, Object> map) {
-        Set<String> keys = map.keySet();
-        // 반복자 next() 메소드 호출 -> 다음 요소
-        Iterator<String> iter = keys.iterator();
-        while (iter.hasNext()) {
-            String key = iter.next();
-            String value = (String) map.get(key);
-        }
-        return map.toString();
     }
 
     @GetMapping("req/path/{path1}/{path2}")
