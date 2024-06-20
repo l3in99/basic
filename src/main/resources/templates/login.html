@@ -3,3 +3,24 @@
     PW : <input type="password" name="userPw"><br>
     <input type="submit" value="로그인">
 </form>
+<script>
+    const submit = document.querySelector('[type=submit]');
+    const id = document.querySelector('[name=userId]');
+    const pw = document.querySelector('[name=userPw]');
+
+    submit.addEventListener('click', async(e) => {
+        e.preventDefault();
+
+        const url = '/login';
+        const obj = { userId: id.value, userPw: pw.value }
+        // json형태의 문자열 생성
+        const json = JSON.stringify(obj);
+        const res = await fetch(url, {
+            method: 'post',
+            headers: {'content-type': 'application/json'},
+            body: json
+        });
+        const data = await res.json(); // res.text();
+        alert(data.msg);
+    });
+</script>
