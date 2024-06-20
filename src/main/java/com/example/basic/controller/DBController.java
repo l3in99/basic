@@ -1,11 +1,15 @@
 package com.example.basic.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,8 +49,20 @@ public class DBController {
     }
     
     @GetMapping("hospital/list")
-    public List<Hospital> hoslist(){
-        return hr.findAll();
+    public Map<String, Object> hoslist(@RequestParam(defaultValue = "1") int page){
+        Map<String, Object> map = new HashMap<>();
+        
+        // 변수명에 따라 데이터를 정렬(기본은 오름차순)
+        Sort sort = Sort.by("medical");
+        Pageable pageable = PageRequest.of(page - 1,3, sort);
+        // Page<Hospital> p = hr.findAll(pageable);
+        // List<Hospital> list = p.getContent();
+        List<Hospital> list = hr.findByAddressLike("%강원%", pageable);
+        map.put("hos_list", list);
+        // map.put("total_page", p.getTotalPages());
+        // map.put("total_count", p.getTotalElements());
+        // map.put("page", page);
+        return map;
     }
 
     @Autowired majorRepository mr; 

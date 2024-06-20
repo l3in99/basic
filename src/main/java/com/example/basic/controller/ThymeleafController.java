@@ -6,9 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.basic.model.Hospital;
@@ -72,9 +78,23 @@ public class ThymeleafController {
     HospitalRepository hr;
 
     @GetMapping("/hospital")
-    public String hospital(Model model) {
-        List<Hospital> elist = hr.findAll();
-        model.addAttribute("elist", elist);
+    public String hospital(Model model, @RequestParam(defaultValue = "1")int page) {
+        Order ord = Order.asc("sido");
+        Order ord2 = Order.desc("name");
+        Sort sort = Sort.by(ord, ord2);
+        Pageable pagable = PageRequest.of(page,10, sort);
+        Page<Hospital> list = hr.findAll(pagable);
+        model.addAttribute("elist", list.getContent());
+
+        int startPage = (page - 1) / 10 * 10 + 1;
+        int endPage = startPage + 9;
+        int totalPage = list.getTotalPages();
+        if(endPage>totalPage) endPage = totalPage;
+
+        model.addAttribute("totalPage", totalPage);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("page", page);
         return "hospital";
     }
 
